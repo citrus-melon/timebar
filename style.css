@@ -47,3 +47,42 @@ progress[value]::-moz-progress-bar {
     border-radius: 10em;
     background-color: #5db;
 }
+
+/* INPUTS */
+input {
+    outline: none;
+    border: none;
+    background: none;
+    border-radius: 0;
+    font-size: inherit;
+    font-family: inherit;
+    
+    transition: border-color 0.5s;
+    border-bottom: 1px solid #aaa;
+}
+
+input:focus {
+    border-bottom:3px solid #5db;
+}
+
+input:invalid {
+    border-bottom: 3px solid #f44;
+}
+
+/* DATE CONTROLS */
+
+#range-controls {
+    padding: 0.5em;
+}
+
+input[type="datetime-local"] {
+    padding: 0;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    margin: 0;
+}
+
+.float-right {
+    float: right;
+}
