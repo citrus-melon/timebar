@@ -17,6 +17,11 @@ body {
     color: #333
 }
 
+/* HEADING */
+#progress-text {
+    text-align: center;
+    font-size: 5em;
+}
 
 /* BARS */
 

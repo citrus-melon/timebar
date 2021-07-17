@@ -1,6 +1,7 @@
 /** @type {HTMLFormElement} */
 const rangeControls = document.getElementById('range-controls');
 const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
 
 let start, end;
 
@@ -9,8 +10,10 @@ const tick = () => {
     const value = (now-start)/(end-start);
     if (isFinite(value)) {
         progressBar.value = value;
+        progressText.textContent = (value*100).toFixed(2) + '%';
     } else {
         progressBar.value = 0;
+        progressText.textContent = '...%'
     }
 }
 
