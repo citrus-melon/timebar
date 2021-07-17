@@ -13,7 +13,7 @@ const tick = () => {
         progressText.textContent = (value*100).toFixed(2) + '%';
     } else {
         progressBar.value = 0;
-        progressText.textContent = '...%'
+        progressText.textContent = '--%'
     }
 }
 
