@@ -17,6 +17,13 @@ const tick = () => {
     }
 }
 
+const onChangeOptions = () => {
+    const params = new URLSearchParams(location.search);
+    params.set('start', rangeControls['start'].value);
+    params.set('end', rangeControls['end'].value);
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+}
+
 const onInputStart = () => {
     const element = rangeControls.elements['start'];
     const newDate = new Date(element.value);
@@ -26,6 +33,7 @@ const onInputStart = () => {
         start = newDate;
         element.setCustomValidity('');
     }
+    onChangeOptions();
 }
 rangeControls.elements['start'].addEventListener('input', onInputStart);
 
@@ -38,8 +46,13 @@ const onInputEnd = () => {
         end = newDate;
         element.setCustomValidity('');
     }
+    onChangeOptions();
 }
 rangeControls.elements['end'].addEventListener('input', onInputEnd);
+
+const urlSearchParams = new URLSearchParams(window.location.search);
+if (urlSearchParams.has('start')) rangeControls.elements['start'].value = urlSearchParams.get('start');
+if (urlSearchParams.has('end')) rangeControls.elements['end'].value = urlSearchParams.get('end');
 
 onInputStart();
 onInputEnd();
