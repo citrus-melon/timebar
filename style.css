@@ -34,6 +34,7 @@ progress[value] {
 progress, progress[value]::-webkit-progress-bar {
     border-radius: 10em;
     background-color: #eee;
+    overflow: hidden;
 }
 
 progress[value]::-webkit-progress-value {
