@@ -1,14 +1,16 @@
 /** @type {HTMLFormElement} */
 const rangeControls = document.getElementById('range-controls');
+const startInput = rangeControls.elements['start'];
+const endInput = rangeControls.elements['end'];
 const progressBar = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
 
-let start, end;
+let start = end = null;
 
 const tick = () => {
     const now = new Date();
     const value = (now-start)/(end-start);
-    if (isFinite(value)) {
+    if (start !== null && end !== null && isFinite(value)) {
         progressBar.value = value;
         progressText.textContent = (value*100).toFixed(2) + '%';
     } else {
@@ -17,45 +19,41 @@ const tick = () => {
     }
 }
 
+const validateInput = (element) => {
+    const newDate = new Date(element.value);
+    if (isNaN(newDate.getTime())) {
+        element.setCustomValidity('Please enter a valid date, ex. 7/16/2021');
+        return null;
+    } else {
+        element.setCustomValidity('');
+        return newDate;
+    }
+}
+
 const onChangeOptions = () => {
     const params = new URLSearchParams(location.search);
-    params.set('start', rangeControls['start'].value);
-    params.set('end', rangeControls['end'].value);
+    params.set('start', startInput.value);
+    params.set('end', endInput.value);
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
 }
 
-const onInputStart = () => {
-    const element = rangeControls.elements['start'];
-    const newDate = new Date(element.value);
-    if (isNaN(newDate.getTime())) {
-        element.setCustomValidity('Please enter a valid date, ex. 7/16/2021');
-    } else {
-        start = newDate;
-        element.setCustomValidity('');
-    }
+startInput.addEventListener('input', (e) => {
+    start = validateInput(startInput);
     onChangeOptions();
-}
-rangeControls.elements['start'].addEventListener('input', onInputStart);
+    tick();
+});
 
-const onInputEnd = () => {
-    const element = rangeControls.elements['end'];
-    const newDate = new Date(element.value);
-    if (isNaN(newDate.getTime())) {
-        element.setCustomValidity('Please enter a valid date, ex. 7/16/2021');
-    } else {
-        end = newDate;
-        element.setCustomValidity('');
-    }
+endInput.addEventListener('input', (e) => {
+    end = validateInput(endInput);
     onChangeOptions();
-}
-rangeControls.elements['end'].addEventListener('input', onInputEnd);
+    tick();
+});
 
 const urlSearchParams = new URLSearchParams(window.location.search);
-if (urlSearchParams.has('start')) rangeControls.elements['start'].value = urlSearchParams.get('start');
-if (urlSearchParams.has('end')) rangeControls.elements['end'].value = urlSearchParams.get('end');
-
-onInputStart();
-onInputEnd();
+if (urlSearchParams.has('start')) startInput.value = urlSearchParams.get('start');
+if (urlSearchParams.has('end')) endInput.value = urlSearchParams.get('end');
+start = validateInput(startInput);
+end = validateInput(endInput);
 
 tick();
 setInterval(tick, 1000);
