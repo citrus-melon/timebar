@@ -57,4 +57,5 @@ if (urlSearchParams.has('end')) rangeControls.elements['end'].value = urlSearchP
 onInputStart();
 onInputEnd();
 
+tick();
 setInterval(tick, 1000);
