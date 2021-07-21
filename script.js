@@ -86,3 +86,12 @@ themeToggle.addEventListener('click', () => {
 });
 
 updateTheme();
+
+const fullscreenToggle = document.getElementById('fullscreen-toggle');
+fullscreenToggle.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => fullscreenToggle.textContent = 'fullscreen_exit');
+    } else {
+        document.exitFullscreen().then(() => fullscreenToggle.textContent = 'fullscreen');
+    }
+});
