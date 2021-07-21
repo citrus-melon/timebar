@@ -60,3 +60,29 @@ end = validateInput(endInput);
 
 tick();
 setInterval(tick, 1000);
+
+const themeToggle = document.getElementById('theme-toggle');
+let theme = localStorage.getItem('theme') || 'system';
+
+const ICON_NAMES = {dark: 'dark_mode', light: 'light_mode', system: 'settings_suggest'};
+const BUTTON_TITLES = {dark: 'Current theme: dark', light: 'Current theme: light', system: 'Current theme:system'};
+const updateTheme = () => {
+    themeToggle.textContent = ICON_NAMES[theme];
+    themeToggle.title = BUTTON_TITLES[theme];
+
+    if (theme === 'light') document.body.classList.add('light-theme');
+    else document.body.classList.remove('light-theme');
+
+    if (theme === 'dark') document.body.classList.add('dark-theme');
+    else document.body.classList.remove('dark-theme');
+}
+
+themeToggle.addEventListener('click', () => {
+    if (theme === 'light') theme = 'system';
+    else if (theme === 'dark') theme = 'light';
+    else if (theme === 'system') theme = 'dark';
+    localStorage.setItem('theme', theme);
+    updateTheme();
+});
+
+updateTheme();

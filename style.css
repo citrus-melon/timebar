@@ -14,10 +14,41 @@ html, body {
 body {
     padding: 2em;
     font-family: Arial, Helvetica, sans-serif;
-    color: #333
+
+    color: #333;
+    --bar-background: #eee;
+    --secondary-gray: #aaa;
+    --accent-color: #5db;
+}
+body.dark-theme {
+    color: #eee;
+    background-color: #33353B;
+    --bar-background: #222225;
+    --accent-color: #14b88f;
 }
 
-/* HEADING */
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #eee;
+        background-color: #33353B;
+        --bar-background: #222225;
+        --accent-color: #14b88f;
+    }
+    body.light-theme {
+        color: #333;
+        background-color: white;
+        --bar-background: #eee;
+        --accent-color: #5db;
+    }
+}
+
+/* HEADER */
+header {
+    display: flex;
+    flex-flow: row-reverse wrap;
+}
+
+/* BIG TEXT */
 #progress-text {
     text-align: center;
     font-size: 5em;
@@ -38,37 +69,52 @@ progress[value] {
 
 progress, progress[value]::-webkit-progress-bar {
     border-radius: 10em;
-    background-color: #eee;
+    background-color: var(--bar-background);
     overflow: hidden;
 }
 
 progress[value]::-webkit-progress-value {
     transition: width 1s;
     border-radius: 10em;
-    background-color: #5db;
+    background-color: var(--accent-color);
 }
 
 progress[value]::-moz-progress-bar {
     transition: width 1s;
     border-radius: 10em;
-    background-color: #5db;
+    background-color:var(--accent-color);
+}
+
+/* ICON BUTTONS */
+button.material-icons-round {
+    appearance: none;
+    border: none;
+    background: none;
+
+    padding: 0 0.25em;
+    color: var(--secondary-gray);
+}
+button.material-icons-round:hover {
+    color: inherit;
 }
 
 /* INPUTS */
 input {
+    appearance: none;
     outline: none;
     border: none;
     background: none;
     border-radius: 0;
     font-size: inherit;
     font-family: inherit;
+    color: inherit;
     
     transition: border-color 0.5s;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid var(--secondary-gray);
 }
 
 input:focus {
-    border-bottom:3px solid #5db;
+    border-bottom:3px solid var(--accent-color);
 }
 
 input:invalid {

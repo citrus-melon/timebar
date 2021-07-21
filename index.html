@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="color-scheme" content="dark light">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timebar</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <button class="material-icons-round" id="theme-toggle" title="Current theme: system">dark_mode</button>
+    </header>
     <h1 id="progress-text">--%</h1>
     <progress id="progress-bar" value="0"></progress>
     <form id="range-controls">
