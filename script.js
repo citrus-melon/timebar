@@ -30,28 +30,31 @@ const validateInput = (element) => {
     }
 }
 
-const onChangeOptions = () => {
+const saveOptions = () => {
     const params = new URLSearchParams(location.search);
     params.set('start', startInput.value);
     params.set('end', endInput.value);
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+
+    localStorage.setItem('start', startInput.value);
+    localStorage.setItem('end', endInput.value);
 }
 
 startInput.addEventListener('input', (e) => {
     start = validateInput(startInput);
-    onChangeOptions();
+    saveOptions();
     tick();
 });
 
 endInput.addEventListener('input', (e) => {
     end = validateInput(endInput);
-    onChangeOptions();
+    saveOptions();
     tick();
 });
 
 const urlSearchParams = new URLSearchParams(window.location.search);
-if (urlSearchParams.has('start')) startInput.value = urlSearchParams.get('start');
-if (urlSearchParams.has('end')) endInput.value = urlSearchParams.get('end');
+startInput.value = urlSearchParams.get('start') || localStorage.getItem('start') || startInput.value;
+endInput.value = urlSearchParams.get('end') || localStorage.getItem('end') || endInput.value;
 start = validateInput(startInput);
 end = validateInput(endInput);
 
