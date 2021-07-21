@@ -78,6 +78,9 @@ input:invalid {
 /* DATE CONTROLS */
 
 #range-controls {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
     padding: 0.5em;
 }
 
