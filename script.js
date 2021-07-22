@@ -50,7 +50,23 @@ endInput.addEventListener('input', (e) => {
 
 const customTitle = document.getElementById('custom-title');
 const titleInput = document.getElementById('title-input');
-const titleEditToggle = document.getElementById('title-edit-toggle')
+const titleEditToggle = document.getElementById('title-edit-toggle');
+
+titleEditToggle.addEventListener('click', () => {
+    customTitle.classList.toggle('nodisplay');
+    titleInput.classList.toggle('nodisplay');
+    if (titleInput.classList.contains('nodisplay')) {
+        titleEditToggle.textContent = 'edit';
+    } else {
+        titleEditToggle.textContent  = 'done'
+    }
+})
+
+titleInput.addEventListener('change', () => {
+    customTitle.textContent = titleInput.value;
+    document.title = titleInput.value + ' - Timebar';
+    saveOptions();
+})
 
 
 //SHARING
@@ -92,6 +108,7 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 startInput.value = urlSearchParams.get('start') || localStorage.getItem('start') || startInput.value;
 endInput.value = urlSearchParams.get('end') || localStorage.getItem('end') || endInput.value;
 customTitle.textContent = titleInput.value = urlSearchParams.get('title') || localStorage.getItem('title') || titleInput.value;
+document.title = titleInput.value + ' - Timebar';
 start = validateInput(startInput);
 end = validateInput(endInput);
 
@@ -133,23 +150,6 @@ fullscreenToggle.addEventListener('click', () => {
         document.exitFullscreen().then(() => fullscreenToggle.textContent = 'fullscreen');
     }
 });
-
-// CUSTOMIZABLE TITLE
-
-titleEditToggle.addEventListener('click', () => {
-    customTitle.classList.toggle('nodisplay');
-    titleInput.classList.toggle('nodisplay');
-    if (titleInput.classList.contains('nodisplay')) {
-        titleEditToggle.textContent = 'edit';
-    } else {
-        titleEditToggle.textContent  = 'done'
-    }
-})
-
-titleInput.addEventListener('change', () => {
-    customTitle.textContent = titleInput.value;
-    saveOptions();
-})
 
 // AUTOHIDE HEADER
 const header = document.getElementById('header');
