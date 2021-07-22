@@ -50,6 +50,15 @@ body.dark-theme {
 header {
     display: flex;
     justify-content: space-between;
+    transition: opacity 1s;
+}
+header.hidden {
+    animation: fade 1s;
+    opacity: 0;
+    visibility: hidden;
+}
+@keyframes fade {
+    from { visibility: visible }
 }
 
 header h1 {

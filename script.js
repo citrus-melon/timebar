@@ -129,6 +129,17 @@ titleInput.addEventListener('change', () => {
     saveOptions();
 })
 
+// AUTOHIDE HEADER
+const header = document.getElementById('header');
+const hideHeader = () => header.classList.add('hidden');
+
+let autohideTimeout = setTimeout(hideHeader, 2000);
+document.addEventListener('mousemove', () => {
+    header.classList.remove('hidden');
+    clearTimeout(autohideTimeout);
+    autohideTimeout = setTimeout(hideHeader, 2000);
+})
+
 // INITIALIZATION
 tick();
 setInterval(tick, 1000);
