@@ -1,16 +1,7 @@
-/** @type {HTMLFormElement} */
-const rangeControls = document.getElementById('range-controls');
-const startInput = rangeControls.elements['start'];
-const endInput = rangeControls.elements['end'];
-
-const customTitle = document.getElementById('custom-title');
-const titleInput = document.getElementById('title-input');
-const titleEditToggle = document.getElementById('title-edit-toggle')
+// TICKING
 
 const progressBar = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
-
-let start = end = null;
 
 const tick = () => {
     const now = new Date();
@@ -24,6 +15,14 @@ const tick = () => {
     }
 }
 
+// DATE RANGE
+
+const rangeControls = document.getElementById('range-controls');
+const startInput = rangeControls.elements['start'];
+const endInput = rangeControls.elements['end'];
+
+let start = end = null;
+
 const validateInput = (element) => {
     const newDate = new Date(element.value);
     if (isNaN(newDate.getTime())) {
@@ -33,18 +32,6 @@ const validateInput = (element) => {
         element.setCustomValidity('');
         return newDate;
     }
-}
-
-const saveOptions = () => {
-    const params = new URLSearchParams(location.search);
-    params.set('start', startInput.value);
-    params.set('end', endInput.value);
-    params.set('title', titleInput.value);
-    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
-
-    localStorage.setItem('start', startInput.value);
-    localStorage.setItem('end', endInput.value);
-    localStorage.setItem('title', titleInput.value);
 }
 
 startInput.addEventListener('input', (e) => {
@@ -59,6 +46,26 @@ endInput.addEventListener('input', (e) => {
     tick();
 });
 
+// CUSTOM TITLE
+
+const customTitle = document.getElementById('custom-title');
+const titleInput = document.getElementById('title-input');
+const titleEditToggle = document.getElementById('title-edit-toggle')
+
+// URL PARAMETERS & LOCALSTORAGE
+
+const saveOptions = () => {
+    const params = new URLSearchParams(location.search);
+    params.set('start', startInput.value);
+    params.set('end', endInput.value);
+    params.set('title', titleInput.value);
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+
+    localStorage.setItem('start', startInput.value);
+    localStorage.setItem('end', endInput.value);
+    localStorage.setItem('title', titleInput.value);
+}
+
 const urlSearchParams = new URLSearchParams(window.location.search);
 startInput.value = urlSearchParams.get('start') || localStorage.getItem('start') || startInput.value;
 endInput.value = urlSearchParams.get('end') || localStorage.getItem('end') || endInput.value;
@@ -66,8 +73,7 @@ customTitle.textContent = titleInput.value = urlSearchParams.get('title') || loc
 start = validateInput(startInput);
 end = validateInput(endInput);
 
-tick();
-setInterval(tick, 1000);
+// VISUAL THEME
 
 const themeToggle = document.getElementById('theme-toggle');
 let theme = localStorage.getItem('theme') || 'system';
@@ -95,6 +101,8 @@ themeToggle.addEventListener('click', () => {
 
 updateTheme();
 
+// FULLSCREEN
+
 const fullscreenToggle = document.getElementById('fullscreen-toggle');
 fullscreenToggle.addEventListener('click', () => {
     if (!document.fullscreenElement) {
@@ -103,6 +111,8 @@ fullscreenToggle.addEventListener('click', () => {
         document.exitFullscreen().then(() => fullscreenToggle.textContent = 'fullscreen');
     }
 });
+
+// CUSTOMIZABLE TITLE
 
 titleEditToggle.addEventListener('click', () => {
     customTitle.classList.toggle('nodisplay');
@@ -118,3 +128,7 @@ titleInput.addEventListener('change', () => {
     customTitle.textContent = titleInput.value;
     saveOptions();
 })
+
+// INITIALIZATION
+tick();
+setInterval(tick, 1000);
