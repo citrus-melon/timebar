@@ -52,6 +52,27 @@ const customTitle = document.getElementById('custom-title');
 const titleInput = document.getElementById('title-input');
 const titleEditToggle = document.getElementById('title-edit-toggle')
 
+
+//SHARING
+
+shareModal = document.getElementById('share-modal');
+shareLink = document.getElementById('share-link');
+copyLinkButton = document.getElementById('copy-link');
+document.getElementById('share-button').addEventListener('click', () => {
+    shareLink.value = location;
+    shareModal.classList.toggle('nodisplay');
+});
+document.getElementById('share-modal-close').addEventListener('click', () => {
+    shareModal.classList.add('nodisplay');
+});
+copyLinkButton.addEventListener('click', () => {
+    shareLink.select();
+    shareLink.setSelectionRange(0, shareLink.value.length);
+    document.execCommand('copy');
+    copyLinkButton.textContent = 'done';
+    setTimeout(() => copyLinkButton.textContent = 'copy', 1000);
+})
+
 // URL PARAMETERS & LOCALSTORAGE
 
 const saveOptions = () => {
@@ -60,6 +81,7 @@ const saveOptions = () => {
     params.set('end', endInput.value);
     params.set('title', titleInput.value);
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+    shareLink.value = location;
 
     localStorage.setItem('start', startInput.value);
     localStorage.setItem('end', endInput.value);

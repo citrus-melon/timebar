@@ -13,6 +13,7 @@
     <header id="header">
         <h1>Timebar</h1>
         <div id="buttons">
+            <button class="material-icons-round" id="share-button" title="Share">link</button>
             <button class="material-icons-round" id="theme-toggle" title="Current theme: system">dark_mode</button>
             <button class="material-icons-round" id="fullscreen-toggle" title="Toggle fullscreen">fullscreen</button>
         </div>
@@ -33,6 +34,19 @@
         <label class="float-right">
             To <input type="datetime-local" name="end" id="end" value="2021-07-16T12:00"/>
         </label>
+    </form>
+    <div id="share-modal" class="nodisplay">
+        <h2>Share
+            <button class="material-icons-round" id="share-modal-close" title="Close">close</button>
+        </h2>
+        <p>
+            Use this link to share your Timebar!
+            You can also bookmark it to save your Timebar for later.
+        </p>
+        <div>
+            <input id="share-link" readonly/>
+            <button class=material-icons-round id="copy-link" title="copy">copy</button>
+        </div>
     </div>
     <script src="script.js" defer></script>
 </body>
