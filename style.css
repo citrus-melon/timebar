@@ -42,6 +42,10 @@ body.dark-theme {
     }
 }
 
+.nodisplay {
+    display: none;
+}
+
 /* HEADER */
 header {
     display: flex;
@@ -59,12 +63,15 @@ header #buttons {
     user-select: none;
 }
 
-/* BIG TEXT */
-#progress-text {
+/* TEXT DISPLAY */
+#text-display {
+    margin: 4em;
     text-align: center;
+}
+
+#progress-text {
     font-size: 5em;
     font-weight: bold;
-    margin: 0.75em 0;
 }
 
 /* BARS */
@@ -121,6 +128,7 @@ input {
     font-size: inherit;
     font-family: inherit;
     color: inherit;
+    text-align: inherit;
     
     transition: border-color 0.5s;
     border-bottom: 1px solid var(--secondary-gray);

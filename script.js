@@ -2,6 +2,11 @@
 const rangeControls = document.getElementById('range-controls');
 const startInput = rangeControls.elements['start'];
 const endInput = rangeControls.elements['end'];
+
+const customTitle = document.getElementById('custom-title');
+const titleInput = document.getElementById('title-input');
+const titleEditToggle = document.getElementById('title-edit-toggle')
+
 const progressBar = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
 
@@ -34,10 +39,12 @@ const saveOptions = () => {
     const params = new URLSearchParams(location.search);
     params.set('start', startInput.value);
     params.set('end', endInput.value);
+    params.set('title', titleInput.value);
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
 
     localStorage.setItem('start', startInput.value);
     localStorage.setItem('end', endInput.value);
+    localStorage.setItem('title', titleInput.value);
 }
 
 startInput.addEventListener('input', (e) => {
@@ -55,6 +62,7 @@ endInput.addEventListener('input', (e) => {
 const urlSearchParams = new URLSearchParams(window.location.search);
 startInput.value = urlSearchParams.get('start') || localStorage.getItem('start') || startInput.value;
 endInput.value = urlSearchParams.get('end') || localStorage.getItem('end') || endInput.value;
+customTitle.textContent = titleInput.value = urlSearchParams.get('title') || localStorage.getItem('title') || titleInput.value;
 start = validateInput(startInput);
 end = validateInput(endInput);
 
@@ -95,3 +103,18 @@ fullscreenToggle.addEventListener('click', () => {
         document.exitFullscreen().then(() => fullscreenToggle.textContent = 'fullscreen');
     }
 });
+
+titleEditToggle.addEventListener('click', () => {
+    customTitle.classList.toggle('nodisplay');
+    titleInput.classList.toggle('nodisplay');
+    if (titleInput.classList.contains('nodisplay')) {
+        titleEditToggle.textContent = 'edit';
+    } else {
+        titleEditToggle.textContent  = 'done'
+    }
+})
+
+titleInput.addEventListener('change', () => {
+    customTitle.textContent = titleInput.value;
+    saveOptions();
+})
