@@ -5,8 +5,9 @@ const progressText = document.getElementById('progress-text');
 
 const tick = () => {
     const now = new Date();
-    const value = (now-start)/(end-start);
+    let value = (now-start)/(end-start);
     if (start !== null && end !== null && isFinite(value)) {
+        if (value < 0) value = 0;
         progressBar.value = value;
         progressText.textContent = (value*100).toFixed(2) + '%';
     } else {
