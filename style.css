@@ -63,9 +63,14 @@ header.hidden {
 }
 
 header h1 {
-    display: inline;
+    display: flex;
+    align-items: center;
     font-size: 24px;
     margin: 0;
+}
+header h1 img {
+    height: 1em;
+    margin-right: 0.25em;
 }
 
 header #buttons {
