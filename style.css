@@ -116,15 +116,16 @@ progress[value]::-moz-progress-bar {
 }
 
 /* ICON BUTTONS */
-button.material-icons-round {
+button.material-icons-round, a.material-icons-round {
     appearance: none;
     border: none;
     background: none;
+    text-decoration: none;
 
     padding: 0 0.25em;
     color: var(--secondary-gray);
 }
-button.material-icons-round:hover {
+button.material-icons-round:hover, a.material-icons-round:hover {
     color: inherit;
 }
 
