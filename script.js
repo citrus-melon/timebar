@@ -4,17 +4,59 @@ const progressBar = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
 
 const tick = () => {
-    const now = new Date();
-    let value = (now-start)/(end-start);
-    if (start !== null && end !== null && isFinite(value)) {
-        if (value < 0) value = 0;
+    if (start !== null && end !== null && start < end) {
+        let now = new Date();
+        if (now < start) now = start;
+        let value = (now-start)/(end-start);
         progressBar.value = value;
-        progressText.textContent = (value*100).toFixed(2) + '%';
+        progressText.textContent = generateText(value, start, now, end);
     } else {
         progressBar.value = 0;
-        progressText.textContent = '--%'
+        progressText.textContent = '--'
     }
 }
+
+// TEXT DISPLAY
+
+const textModeInput = document.getElementById('text-mode');
+textModeInput.addEventListener('change', () => saveOptions());
+
+const textGenerators = {};
+
+textGenerators.percentComplete = (value) => (value*100).toFixed(2) + '%';
+textGenerators.percentRemaining = (value) => ((1-value)*100).toFixed(2) + '%';
+textGenerators.timeComplete = (value, start, now) => {
+    let seconds = Math.abs(now - start) / 1000;
+    let parts = [];
+
+    const weeks = Math.floor(seconds / 604800);
+    if (weeks) parts.push(`${weeks} week${weeks === 1 ? '' : 's'}`)
+    seconds -= weeks * 604800;
+
+    const days = Math.floor(seconds / 86400);
+    if (days) parts.push(`${days} day${days === 1 ? '' : 's'}`)
+    seconds -= days * 86400;
+
+    const hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+
+    const minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+
+    if (hours) {
+        parts.push(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+    } else {
+        parts.push(`${minutes.toString().padStart(2, '0')}:${Math.floor(seconds).toString().padStart(2, '0')}`)
+    }
+
+    let string = parts.join(', ');
+    if (now < start) string = '-' + string;
+    return string;
+}
+textGenerators.timeRemaining = (value, start, now, end) => textGenerators.timeComplete(value, now, end);
+textGenerators.currentTime = (value, start, now) => now.toLocaleString();
+
+const generateText = (...args) => textGenerators[textModeInput.value](...args);
 
 // DATE RANGE
 
@@ -97,18 +139,21 @@ const saveOptions = () => {
     params.set('start', startInput.value);
     params.set('end', endInput.value);
     params.set('title', titleInput.value);
+    params.set('textMode', textModeInput.value);
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
     shareLink.value = location;
 
     localStorage.setItem('start', startInput.value);
     localStorage.setItem('end', endInput.value);
     localStorage.setItem('title', titleInput.value);
+    localStorage.setItem('textMode', textModeInput.value);
 }
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 startInput.value = urlSearchParams.get('start') || localStorage.getItem('start') || startInput.value;
 endInput.value = urlSearchParams.get('end') || localStorage.getItem('end') || endInput.value;
 customTitle.textContent = titleInput.value = urlSearchParams.get('title') || localStorage.getItem('title') || titleInput.value;
+textModeInput.value = urlSearchParams.get('textMode') || localStorage.getItem('textMode') || textModeInput.value;
 document.title = titleInput.value + ' - Timebar';
 start = validateInput(startInput);
 end = validateInput(endInput);

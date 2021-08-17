@@ -30,6 +30,13 @@
             <button class="material-icons-round" id="title-edit-toggle" title="Edit title">edit</button>
         </h2>
         <div id="progress-text">--%</div>
+        <select name="text-mode" id="text-mode" title="Display mode">
+            <option value="percentComplete">Percent Complete</option>
+            <option value="percentRemaining">Percent Remaining</option>
+            <option value="timeComplete">Time Complete</option>
+            <option value="timeRemaining">Time Remaining</option>
+            <option value="currentTime">Current Time</option>
+        </select>
     </div>
     <progress id="progress-bar" value="0"></progress>
     <form id="range-controls">
