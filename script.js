@@ -19,7 +19,10 @@ const tick = () => {
 // TEXT DISPLAY
 
 const textModeInput = document.getElementById('text-mode');
-textModeInput.addEventListener('change', () => saveOptions());
+textModeInput.addEventListener('change', () => {
+    saveOptions();
+    tick();
+});
 
 const textGenerators = {};
 
